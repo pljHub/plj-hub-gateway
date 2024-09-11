@@ -25,6 +25,12 @@ public class GatewayConfig {
                 .route("hub_path_service", r -> r.path(PathConfig.HUB_PATH_SERVICE)
                         .uri("lb://HUB-SERVICE"))
 
-                .build();
+                .route("order_service", r -> r.path(PathConfig.ORDER_PATH)
+                    .uri("lb://ORDER-SERVICE"))
+
+                .route("order_service", r -> r.path(PathConfig.DELIVERY_PATH)
+                    .uri("lb://ORDER-SERVICE"))
+
+            .build();
     }
 }

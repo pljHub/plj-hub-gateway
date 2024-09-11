@@ -6,6 +6,8 @@ public class PathConfig {
     public static final String PRODUCT_SERVICE = "/api/products/**";
     public static final String COMPANY_SERVICE = "/api/companies/**";
     public static final String HUB_PATH_SERVICE = "/api/hub-path/**";
+    public static final String ORDER_PATH = "/api/orders/**";
+    public static final String DELIVERY_PATH = "/api/deliveries/**";
 
     private PathConfig() {
 
