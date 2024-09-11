@@ -7,4 +7,7 @@ public class PathConfig {
     public static final String COMPANY_SERVICE = "/api/companies/**";
     public static final String HUB_PATH_SERVICE = "/api/hub-path/**";
 
+    private PathConfig() {
+
+    }
 }
