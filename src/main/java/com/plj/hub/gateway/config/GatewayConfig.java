@@ -26,10 +26,10 @@ public class GatewayConfig {
                         .uri("lb://HUB-SERVICE"))
 
                 .route("order_service", r -> r.path(PathConfig.ORDER_PATH)
-                    .uri("lb://ORDER-SERVICE"))
+                        .uri("lb://ORDER-SERVICE"))
 
                 .route("order_service", r -> r.path(PathConfig.DELIVERY_PATH)
-                    .uri("lb://ORDER-SERVICE"))
+                        .uri("lb://ORDER-SERVICE"))
 
             .build();
     }
