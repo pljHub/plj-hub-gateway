@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum GatewayErrorCode implements ErrorCode{
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "권한이 없습니다."),
+    USER_NOT_ACTIVATED(HttpStatus.FORBIDDEN, "계정이 활성화 되지 않았습니다."),
+    USER_ALREADY_ACTIVATED(HttpStatus.FORBIDDEN, "이미 활성화된 계정입니다."),
 
     ;
 

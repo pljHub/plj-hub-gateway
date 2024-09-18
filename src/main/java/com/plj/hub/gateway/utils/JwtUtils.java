@@ -26,6 +26,10 @@ public class JwtUtils {
         return extractAllClaims(token).getId();
     }
 
+    public boolean extractIsActivated(String token) {
+        return extractAllClaims(token).get("isActivated", Boolean.class);
+    }
+
     // JWT 토큰에서 발행 기관 추출
     public String extractIssuer(String token) {
         return extractAllClaims(token).getIssuer();

@@ -1,8 +1,11 @@
 package com.plj.hub.gateway.filter;
 
+import com.plj.hub.gateway.config.ActivatedUserUri;
 import com.plj.hub.gateway.config.PermitUri;
 import com.plj.hub.gateway.exception.AccessDeniedException;
 import com.plj.hub.gateway.exception.JwtNotValidException;
+import com.plj.hub.gateway.exception.UserAlreadyActivatedException;
+import com.plj.hub.gateway.exception.UserNotActivatedException;
 import com.plj.hub.gateway.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -27,13 +30,22 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String path = exchange.getRequest().getURI().getPath();
 
-        if (isPermitAllUri(exchange, chain, path)) return chain.filter(exchange);
+        if (isPermitAllUri(path)) return chain.filter(exchange);
 
         String token =  extractToken(exchange);
 
         if (!jwtUtils.validateToken(token)) {
             throw new JwtNotValidException();
         }
+
+        if (NotActivatedUri(path) && jwtUtils.extractIsActivated(token)) {
+            throw new UserAlreadyActivatedException();
+        }
+
+        if (!NotActivatedUri(path) && !jwtUtils.extractIsActivated(token)) {
+            throw new UserNotActivatedException();
+        }
+
 
         String currentUserId = jwtUtils.extractUserId(token);
         String currentUserRole = jwtUtils.extractUserRole(token);
@@ -60,7 +72,14 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         throw new AccessDeniedException();
     }
 
-    private boolean isPermitAllUri(ServerWebExchange exchange, GatewayFilterChain chain, String path) {
+    private boolean NotActivatedUri(String path) {
+        List<String> collect = Arrays.stream(ActivatedUserUri.values()).map(u -> u.getUri()).collect(Collectors.toList());if (collect.contains(path)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isPermitAllUri(String path) {
         List<String> collect = Arrays.stream(PermitUri.values()).map(u -> u.getUri()).collect(Collectors.toList());
         if (collect.contains(path)) {
             return true;
