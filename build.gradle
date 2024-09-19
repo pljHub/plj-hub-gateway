@@ -36,6 +36,10 @@ dependencies {
 	// config-client
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 
+	// prometheus
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
+	// actuator
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
